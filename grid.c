@@ -1,12 +1,10 @@
 #include "demineur.h"
 
-
-
 void printGrid(char **grid) {
     int k = 'A';
     printf("  ");
     for (int l = 0; l < TAILLE; l++) {
-        printf("%c", k);
+        printf("%c ", k);
         k++;
     }
     k = 'A';
@@ -15,7 +13,14 @@ void printGrid(char **grid) {
     k++;
     for (int j = 0; j < TAILLE; j++) {
         for (int i = 0; i < TAILLE; i++) {
-            printf("%c", grid[j][i]);
+            if (grid[j][i] == '*' || grid[j][i] == 'P') { // If the cell is a mine
+                printf("\033[31m%c\033[0m ", grid[j][i]); // Print in red
+            } else if (grid[j][i] >= '0' && grid[j][i] <= '9') { // If the cell is hidden
+                printf("\033[32m%c\033[0m ", grid[j][i]); // Print in green
+            } else {
+                printf("\033[34m%c\033[0m ", grid[j][i]); // Print in blue
+                
+            }
         }
         printf("\n");
         if(j < TAILLE - 1) {

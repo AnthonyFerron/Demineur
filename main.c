@@ -21,6 +21,8 @@ void clearOutput(void) {
 }
 
 
+
+
 int main(void) {
     int choix;
     clearOutput();
@@ -38,9 +40,6 @@ int main(void) {
             break;
         case 2:
             clearOutput();
-            printf("Pour jouer, appuyez sur 'x' pour découvrir une case et 'd' pour poser un drapeau\n");
-            printf("Le format pour jouer est : d/x x y\n");
-            printf("Bonne chance !\n\n");
             initGame();
             break;
         case 3:

@@ -18,10 +18,16 @@
 #include <string.h>
 #include <time.h>
 
+
 #define TAILLE 5
 #define MINES 10
 
+void clearOutput(void);
+void regles(void);
+
 #include "grid.c"
 #include "game.c"
+
+
 
 #endif
