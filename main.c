@@ -1,7 +1,9 @@
 #include "demineur.h"
 
+
+
 void regles(void) {
-    printf("\n\nBienvenue sur le Démineur!\n\n");
+    printf("Bienvenue sur le Démineur!\n\n");
     printf("Règles du jeu :\n");
     printf("1. Le jeu se déroule sur un plateau composé de cases.\n");
     printf("2. Certaines cases contiennent des mines et d'autres non.\n");
@@ -14,7 +16,7 @@ void regles(void) {
     return;
 }
 
-void clearOutput() {
+void clearOutput(void) {
     printf("\033[H\033[2J");
 }
 
@@ -36,7 +38,10 @@ int main(void) {
             break;
         case 2:
             clearOutput();
-            initGrid();
+            printf("Pour jouer, appuyez sur 'x' pour découvrir une case et 'd' pour poser un drapeau\n");
+            printf("Le format pour jouer est : d/x x y\n");
+            printf("Bonne chance !\n\n");
+            initGame();
             break;
         case 3:
             printf("Charger une partie\n");

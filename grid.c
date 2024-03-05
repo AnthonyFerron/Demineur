@@ -1,12 +1,27 @@
 #include "demineur.h"
 
 
+
 void printGrid(char **grid) {
+    int k = 'A';
+    printf("  ");
+    for (int l = 0; l < TAILLE; l++) {
+        printf("%c", k);
+        k++;
+    }
+    k = 'A';
+    printf("\n");
+    printf("%c ", k);
+    k++;
     for (int j = 0; j < TAILLE; j++) {
         for (int i = 0; i < TAILLE; i++) {
             printf("%c", grid[j][i]);
         }
         printf("\n");
+        if(j < TAILLE - 1) {
+            printf("%c ", k);
+            k++;
+        }
     }
 }
 
@@ -60,38 +75,40 @@ void realGridWithMines(char **grid) {
     }
 }
 
-void initGrid(void) {
-    char **grid = malloc(TAILLE * sizeof(char *));
-    for (int i = 0; i < TAILLE; i++) {
-        grid[i] = malloc(TAILLE * sizeof(char));
-    }
-    char **realGrid = malloc(TAILLE * sizeof(char *));
-    for (int i = 0; i < TAILLE; i++) {
-        realGrid[i] = malloc(TAILLE * sizeof(char));
-    }
-    char **playerGrid = malloc(TAILLE * sizeof(char *));
-    for (int i = 0; i < TAILLE; i++) {
-        playerGrid[i] = malloc(TAILLE * sizeof(char));
-    }
+// char **initGrid(void) {
+//     char **grid = malloc(TAILLE * sizeof(char *));
+//     for (int i = 0; i < TAILLE; i++) {
+//         grid[i] = malloc(TAILLE * sizeof(char));
+//     }
+//     char **realGrid = malloc(TAILLE * sizeof(char *));
+//     for (int i = 0; i < TAILLE; i++) {
+//         realGrid[i] = malloc(TAILLE * sizeof(char));
+//     }
+//     char **playerGrid = malloc(TAILLE * sizeof(char *));
+//     for (int i = 0; i < TAILLE; i++) {
+//         playerGrid[i] = malloc(TAILLE * sizeof(char));
+//     }
 
-    for (int j = 0; j < TAILLE; j++) {
-        for (int i = 0; i < TAILLE; i++) {
-            grid[j][i] = 'x';
-        }
-    }
+//     for (int j = 0; j < TAILLE; j++) {
+//         for (int i = 0; i < TAILLE; i++) {
+//             grid[j][i] = 'x';
+//         }
+//     }
 
-    printGrid(grid);
-    memcpy(playerGrid, grid, TAILLE * sizeof(char *));
-    printf("\n\n");
-    memcpy(realGrid, grid, TAILLE * sizeof(char *));
-    realGridInit(realGrid);
-    printGrid(realGrid);
-    printf("\n\n");
-    realGridWithMines(realGrid);
-    printGrid(realGrid);
+//     // printGrid(grid);
+//     // memcpy(playerGrid, grid, TAILLE * sizeof(char *));
+//     // printf("\n\n");
+//     // memcpy(realGrid, grid, TAILLE * sizeof(char *));
+//     // realGridInit(realGrid);
+//     // printGrid(realGrid);
+//     // printf("\n\n");
+//     // realGridWithMines(realGrid);
+//     // printGrid(realGrid);
 
-    for (int i = 0; i < TAILLE; i++) {
-        free(grid[i]);
-    }
-    free(grid);
-}
+//     return(grid);
+
+//     for (int i = 0; i < TAILLE; i++) {
+//         free(grid[i]);
+//     }
+//     free(grid);
+// }
