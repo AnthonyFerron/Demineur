@@ -24,6 +24,7 @@
 
 void clearOutput(void);
 void regles(void);
+int theMain(void);
 
 #include "grid.c"
 #include "game.c"

@@ -23,7 +23,7 @@ void clearOutput(void) {
 
 
 
-int main(void) {
+int theMain(void) {
     int choix;
     clearOutput();
     regles();
@@ -63,5 +63,10 @@ int main(void) {
     
     
     
+    return 0;
+}
+
+int main(void) {
+    theMain();
     return 0;
 }

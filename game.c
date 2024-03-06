@@ -78,6 +78,17 @@ void initGame(void) {
     return;
 }
 
+int nbMines(char **grid) {
+    int count = 0;
+    for (int j = 0; j < TAILLE; j++) {
+        for (int i = 0; i < TAILLE; i++) {
+            if (grid[j][i] == '*') {
+                count++;
+            }
+        }
+    }
+    return count;
+}
 
 void logicGame(char **playerGrid, char **realGrid) {
     int game = 1;
@@ -130,7 +141,6 @@ void logicGame(char **playerGrid, char **realGrid) {
                     printGrid(playerGrid);
                     game = 0;
                     endGame();
-                    
                 }
             }
         }
@@ -139,19 +149,35 @@ void logicGame(char **playerGrid, char **realGrid) {
 }
 
 void endGame(void) {
+    int choix;
+    do
+    {
     printf("Merci d'avoir joué !\n");
-    printf("Que souhaitez vous faire ? \n 1)Rejouer \n 2)Menu principal \n 3)Quitter\n");
-    return;
-}
-
-int nbMines(char **grid) {
-    int count = 0;
-    for (int j = 0; j < TAILLE; j++) {
-        for (int i = 0; i < TAILLE; i++) {
-            if (grid[j][i] == '*') {
-                count++;
-            }
+    printf("Que souhaitez vous faire ? \n 1)Rejouer \n 2)Menu principal \n 3)Voir le tableau des scores\n 4)Quitter\n");
+        scanf("%d", &choix);
+        switch (choix)
+        {
+        case 1:
+            clearOutput();
+            initGame();
+            break;
+        case 2:
+            clearOutput();
+            theMain();
+            break;
+        case 3:
+            printf("tableau des scores\n");
+            break;
+        case 4:
+            clearOutput();
+            printf("Merci d'avoir jouer !\nA bientot !\n");
+            break;
+        default:
+            printf("\033[0;31m");
+            printf("Veuillez choisir un chiffre valide !\n");
+            printf("\033[0m");
+            break;
         }
-    }
-    return count;
+    } while (!(choix < 5 && choix > 0));
+    return;
 }
