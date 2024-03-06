@@ -1,7 +1,9 @@
 #include "demineur.h"
 
+
+
 void regles(void) {
-    printf("\n\nBienvenue sur le Démineur!\n\n");
+    printf("Bienvenue sur le Démineur!\n\n");
     printf("Règles du jeu :\n");
     printf("1. Le jeu se déroule sur un plateau composé de cases.\n");
     printf("2. Certaines cases contiennent des mines et d'autres non.\n");
@@ -14,12 +16,14 @@ void regles(void) {
     return;
 }
 
-void clearOutput() {
+void clearOutput(void) {
     printf("\033[H\033[2J");
 }
 
 
-int main(void) {
+
+
+int theMain(void) {
     int choix;
     clearOutput();
     regles();
@@ -36,7 +40,7 @@ int main(void) {
             break;
         case 2:
             clearOutput();
-            initGrid();
+            initGame();
             break;
         case 3:
             printf("Charger une partie\n");
@@ -59,5 +63,10 @@ int main(void) {
     
     
     
+    return 0;
+}
+
+int main(void) {
+    theMain();
     return 0;
 }
