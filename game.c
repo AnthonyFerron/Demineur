@@ -2,6 +2,7 @@
 
 void logicGame(char **playerGrid, char **realGrid);
 void endGame(void);
+int nbMines(char **grid);
 
 
 void initGame(void) {
@@ -85,7 +86,7 @@ void logicGame(char **playerGrid, char **realGrid) {
     char case2 = 0;
     int x = 0;
     int y = 0;
-    int revealed = 0;
+    int revealed = 4;
     while (game) {
         clearOutput();
         printf("Pour jouer, écrivez sur 'x' pour découvrir une case et 'd' pour poser un drapeau\n");
@@ -122,7 +123,7 @@ void logicGame(char **playerGrid, char **realGrid) {
             } else {
                 playerGrid[y][x] = realGrid[y][x];
                 revealed++;
-                if (revealed == TAILLE * TAILLE - MINES) {
+                if (revealed == TAILLE * TAILLE - nbMines(realGrid)) {
                     clearOutput();
                     printf("Vous avez gagné !\n");
                     printf("\n\n");
@@ -141,4 +142,16 @@ void endGame(void) {
     printf("Merci d'avoir joué !\n");
     printf("Que souhaitez vous faire ? \n 1)Rejouer \n 2)Menu principal \n 3)Quitter\n");
     return;
+}
+
+int nbMines(char **grid) {
+    int count = 0;
+    for (int j = 0; j < TAILLE; j++) {
+        for (int i = 0; i < TAILLE; i++) {
+            if (grid[j][i] == '*') {
+                count++;
+            }
+        }
+    }
+    return count;
 }

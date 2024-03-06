@@ -20,7 +20,7 @@
 
 
 #define TAILLE 5
-#define MINES 10
+#define MINES 7
 
 void clearOutput(void);
 void regles(void);
