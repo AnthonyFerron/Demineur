@@ -116,6 +116,7 @@ double logicGame(char **playerGrid, char **realGrid) {
         printf("Pour jouer, écrivez sur 'x' pour découvrir une case et 'd' pour poser un drapeau\n");
         printf("Ensuite, indiquez la position avec les lettres en minuscule\n");
         printf("Exemple : x a b pour decouvrir la case de la collone A, ligne B\n");
+        printf("Vous pouvez quitter la partie en écrivant 'q a a'\n");
         printf("Bonne chance !\n\n");
         printGrid(playerGrid);
         printf("\nEntrez votre coup : ");
