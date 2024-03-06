@@ -26,8 +26,10 @@ void clearOutput(void);
 void regles(void);
 int theMain(void);
 
+#include "scores.c"
 #include "grid.c"
 #include "game.c"
+
 
 
 

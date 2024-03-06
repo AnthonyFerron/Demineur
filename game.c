@@ -1,11 +1,14 @@
 #include "demineur.h"
 
-void logicGame(char **playerGrid, char **realGrid);
-void endGame(void);
+double logicGame(char **playerGrid, char **realGrid);
+void endGame(int win, double time);
 int nbMines(char **grid);
 
 
 void initGame(void) {
+
+    clock_t start, end;
+    double cpu_time_used;
 
     char **grid = malloc(TAILLE * sizeof(char *));
     for (int i = 0; i < TAILLE; i++) {
@@ -61,7 +64,11 @@ void initGame(void) {
         count++;
     }
 
-    logicGame(playerGrid, realGrid);
+    int win = 0;
+    start = clock();
+    win = logicGame(playerGrid, realGrid);
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
 
     for (int i = 0; i < TAILLE; i++) {
         free(grid[i]);
@@ -75,6 +82,12 @@ void initGame(void) {
         free(realGrid[i]);
     }
     free(realGrid);
+    
+    if(win == 1) {
+        endGame(1, cpu_time_used);
+    } else {
+        endGame(0, cpu_time_used);
+    }
     return;
 }
 
@@ -90,7 +103,7 @@ int nbMines(char **grid) {
     return count;
 }
 
-void logicGame(char **playerGrid, char **realGrid) {
+double logicGame(char **playerGrid, char **realGrid) {
     int game = 1;
     char action;
     char case1 = 0;
@@ -130,7 +143,7 @@ void logicGame(char **playerGrid, char **realGrid) {
                 printf("La solution était : \n");
                 printGrid(realGrid);
                 game = 0;
-                endGame();
+                return 0;
             } else {
                 playerGrid[y][x] = realGrid[y][x];
                 revealed++;
@@ -140,16 +153,30 @@ void logicGame(char **playerGrid, char **realGrid) {
                     printf("\n\n");
                     printGrid(playerGrid);
                     game = 0;
-                    endGame();
+                    return 1;
                 }
             }
+            
+        } else if (action == 'q') {
+            game = 0;
+            return 0;
         }
         else(printf("Veuillez entrer une action valide !\n"));
     }
+    return 0;
 }
 
-void endGame(void) {
+void endGame(int win, double time) {
     int choix;
+
+    if (win == 1) {
+        printf("Votre temps : %f\n", time);
+        printf("Entrez votre nom pour le tableau des scores : ");
+        char name[50];
+        scanf("%s", name);
+        addScore(name, time);
+    }
+    else {}
     do
     {
     printf("Merci d'avoir joué !\n");
@@ -166,7 +193,9 @@ void endGame(void) {
             theMain();
             break;
         case 3:
-            printf("tableau des scores\n");
+            clearOutput();
+            printScores();
+            choix = 0;
             break;
         case 4:
             clearOutput();

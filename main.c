@@ -46,7 +46,9 @@ int theMain(void) {
             printf("Charger une partie\n");
             break;
         case 4:
-            printf("Tableau des records !\n");
+            clearOutput();
+            printScores();
+            choix = 0;
             break;
         case 5:
             printf("Quitter\n");
