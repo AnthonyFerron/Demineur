@@ -1,9 +1,0 @@
-
-    // Calculez le temps pris en secondes
-    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-
-    // Affichez le temps pris
-    printf("Le jeu a pris %f secondes pour terminer.\n", cpu_time_used);
-
-    return 0;
-}
