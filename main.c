@@ -52,6 +52,7 @@ int theMain(void) {
             choix = 0;
             break;
         case 5:
+            clearOutput();
             printf("Merci d'avoir joué !\n");
             printf("A bientôt !\n");
             break;

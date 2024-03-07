@@ -17,6 +17,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <time.h>
+#include <stdbool.h>
 
 
 #define TAILLE 5

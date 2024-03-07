@@ -1,13 +1,54 @@
 #include "demineur.h"
 double logicGame(char **playerGrid, char **realGrid);
 void loadAGame(void);
+void deleteSave(char saveName[50]);
+
+// Vérifier si un nom de sauvegarde existe déjà dans le fichier
+int isSaveNameExists(const char *saveName) {
+    FILE *file = fopen("save.txt", "r");
+    if (file == NULL) {
+        return 0; // Le fichier n'existe pas, donc le nom de sauvegarde n'existe pas non plus
+    }
+
+    char currentName[50];
+    while (fgets(currentName, sizeof(currentName), file) != NULL) {
+        currentName[strcspn(currentName, "\n")] = '\0'; // Supprimer le caractère de nouvelle ligne
+        if (strcmp(currentName, saveName) == 0) {
+            fclose(file);
+            return 1; // Le nom de sauvegarde existe déjà
+        }
+        // Ignorer les 10 lignes suivantes
+        for (int i = 0; i < 10; i++) {
+            if (fgets(currentName, sizeof(currentName), file) == NULL) {
+                break;
+            }
+        }
+    }
+
+    fclose(file);
+    return 0; // Le nom de sauvegarde n'existe pas
+}
 
 // sauvegarder une partie en cours
 void saveGame(char **playerGrid, char **realGrid) {
     char saveName[50];
-    printf("Enter a name for the save: ");
-    scanf("%s", saveName);
-    FILE *file = fopen("save.txt", "w");
+
+    // Vérifier si le nom de sauvegarde existe déjà
+    int choosenName = 0;
+    do
+    {
+        printf("Enter a name for the save: ");
+        scanf("%s", saveName);
+        if (isSaveNameExists(saveName)) {
+            printf("A save with the given name already exists. Please choose a different name.\n");
+        } else {
+            choosenName = 1;
+        }
+    } while (choosenName == 0);
+    
+
+
+    FILE *file = fopen("save.txt", "a"); // Open the file in append mode
     if (file == NULL) {
         printf("Erreur lors de la sauvegarde de la partie\n");
         return;
@@ -26,7 +67,7 @@ void saveGame(char **playerGrid, char **realGrid) {
         fprintf(file, "\n");
     }
     fclose(file);
-    printf("Partie sauvegardée avec succès !\n");
+    printf("Game saved successfully.\n");
     theMain();
     return;
 }
@@ -42,36 +83,44 @@ void loadGame(void) {
         return;
     }
     char line[50];
-    // Read the save name from the file
-    fgets(line, sizeof(line), file);
-    line[strcspn(line, "\n")] = 0; // Remove the newline character
-
-    if (strcmp(line, saveName) != 0) {
-        printf("No save found with the given name.\n");
-        loadAGame();
-        return;
-    }
-    char **playerGrid = malloc(TAILLE * sizeof(char *));
-    for (int i = 0; i < TAILLE; i++) {
-        playerGrid[i] = malloc(TAILLE * sizeof(char));
-    }
-    char **realGrid = malloc(TAILLE * sizeof(char *));
-    for (int i = 0; i < TAILLE; i++) {
-        realGrid[i] = malloc(TAILLE * sizeof(char));
-    }
-    for (int j = 0; j < TAILLE; j++) {
-        for (int i = 0; i < TAILLE; i++) {
-            fscanf(file, " %c", &playerGrid[j][i]);
+    char currentName[50];
+    while (fgets(currentName, sizeof(currentName), file) != NULL) {
+        currentName[strcspn(currentName, "\n")] = '\0'; // Supprimer le caractère de nouvelle ligne
+        if (strcmp(currentName, saveName) == 0) {
+            // Charger la sauvegarde
+            char **playerGrid = malloc(TAILLE * sizeof(char *));
+            for (int i = 0; i < TAILLE; i++) {
+                playerGrid[i] = malloc(TAILLE * sizeof(char));
+            }
+            char **realGrid = malloc(TAILLE * sizeof(char *));
+            for (int i = 0; i < TAILLE; i++) {
+                realGrid[i] = malloc(TAILLE * sizeof(char));
+            }
+            // Lire la grille du joueur
+            for (int j = 0; j < TAILLE; j++) {
+                fgets(line, sizeof(line), file);
+                for (int i = 0; i < TAILLE; i++) {
+                    playerGrid[j][i] = line[i];
+                }
+            }
+            // Lire la grille réelle
+            for (int j = 0; j < TAILLE; j++) {
+                fgets(line, sizeof(line), file);
+                for (int i = 0; i < TAILLE; i++) {
+                    realGrid[j][i] = line[i];
+                }
+            }
+            deleteSave(saveName);
+            fclose(file);
+            logicGame(playerGrid, realGrid);
+            return;
+        }
+        // Avancer dans le fichier pour sauter les grilles de jeu
+        for (int i = 0; i < TAILLE * 2; i++) {
+            fgets(line, sizeof(line), file);
         }
     }
-    for (int j = 0; j < TAILLE; j++) {
-        for (int i = 0; i < TAILLE; i++) {
-            fscanf(file, " %c", &realGrid[j][i]);
-        }
-    }
-    fclose(file);
-    logicGame(playerGrid, realGrid);
-    return;
+    printf("No save found with the given name.\n");
 }
 
 //liste des parties sauvegardées
@@ -81,25 +130,80 @@ void listSave(void) {
         printf("Aucune partie sauvegardée\n");
         return;
     }
-    char line[256];
-    int count = 0;
-    while (fgets(line, sizeof(line), file) != NULL && count < 5) {
-        printf("%s", line);
-        count++;
+    char line[50];
+    while (fgets(line, sizeof(line), file) != NULL) {
+        line[strcspn(line, "\n")] = '\0'; // Supprimer le caractère de nouvelle ligne
+        printf("%s\n", line);
+        // Avancer dans le fichier pour sauter les grilles de jeu
+        for (int i = 0; i < TAILLE * 2; i++) {
+            fgets(line, sizeof(line), file);
+        }
     }
     printf("\n");
     fclose(file);
 }
 
 //supprimer une partie sauvegardée
-void deleteSave(void) {
-    if (remove("save.txt") == 0) {
-        printf("Partie sauvegardée supprimée avec succès !\n");
-    } else {
-        printf("Erreur lors de la suppression de la partie sauvegardée\n");
+// Supprimer une partie sauvegardée
+// Supprimer une partie sauvegardée
+void deleteSave(char saveName[50]) {
+    
+    FILE *file = fopen("save.txt", "r");
+    if (file == NULL) {
+        printf("Aucune partie sauvegardée\n");
+        return;
     }
-    return;
+
+    FILE *tempFile = fopen("temp.txt", "w");
+    if (tempFile == NULL) {
+        fclose(file);
+        printf("Erreur lors de la suppression de la sauvegarde\n");
+        return;
+    }
+
+    char currentName[50];
+    char line[50];
+    int found = 0;
+
+    while (fgets(currentName, sizeof(currentName), file) != NULL) {
+        currentName[strcspn(currentName, "\n")] = '\0'; // Supprimer le caractère de nouvelle ligne
+
+        // Si le nom de sauvegarde correspond
+        if (strcmp(currentName, saveName) == 0) {
+            found = 1;
+            // Lire et ignorer les 10 lignes suivantes
+            for (int i = 0; i < 10; i++) {
+                if (fgets(line, sizeof(line), file) == NULL) {
+                    break;
+                }
+            }
+        } else {
+            // Si ce n'est pas la sauvegarde à supprimer, copier la ligne dans le fichier temporaire
+            fprintf(tempFile, "%s\n", currentName);
+            for (int i = 0; i < 10; i++) {
+                if (fgets(line, sizeof(line), file) == NULL) {
+                    break;
+                }
+                fprintf(tempFile, "%s", line);
+            }
+        }
+    }
+
+    fclose(file);
+    fclose(tempFile);
+
+    // Remplacer le fichier d'origine par le fichier temporaire
+    remove("save.txt");
+    rename("temp.txt", "save.txt");
+
+    if (found) {
+        printf("Save '%s' deleted successfully.\n", saveName);
+    } else {
+        printf("No save found with the given name.\n");
+    }
 }
+
+
 
 void loadAGame(void) {
     int choix;
@@ -116,11 +220,16 @@ void loadAGame(void) {
             break;
         case 2:
             clearOutput();
+            listSave();
             loadGame();
             break;
         case 3:
             clearOutput();
-            deleteSave();
+            listSave();
+            char saveName[50];
+            printf("Enter the name of the save to delete: ");
+            scanf("%s", saveName);
+            deleteSave(saveName);
             choix = 0;
             break;
         case 4:
