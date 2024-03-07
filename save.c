@@ -1,13 +1,18 @@
 #include "demineur.h"
 double logicGame(char **playerGrid, char **realGrid);
+void loadAGame(void);
 
 // sauvegarder une partie en cours
 void saveGame(char **playerGrid, char **realGrid) {
+    char saveName[50];
+    printf("Enter a name for the save: ");
+    scanf("%s", saveName);
     FILE *file = fopen("save.txt", "w");
     if (file == NULL) {
         printf("Erreur lors de la sauvegarde de la partie\n");
         return;
     }
+    fprintf(file, "%s\n", saveName);
     for (int j = 0; j < TAILLE; j++) {
         for (int i = 0; i < TAILLE; i++) {
             fprintf(file, "%c", playerGrid[j][i]);
@@ -28,9 +33,22 @@ void saveGame(char **playerGrid, char **realGrid) {
 
 // charger une partie sauvegardée
 void loadGame(void) {
+    char saveName[50];
+    printf("Enter the name of the save to load: ");
+    scanf("%s", saveName);
     FILE *file = fopen("save.txt", "r");
     if (file == NULL) {
         printf("Aucune partie sauvegardée\n");
+        return;
+    }
+    char line[50];
+    // Read the save name from the file
+    fgets(line, sizeof(line), file);
+    line[strcspn(line, "\n")] = 0; // Remove the newline character
+
+    if (strcmp(line, saveName) != 0) {
+        printf("No save found with the given name.\n");
+        loadAGame();
         return;
     }
     char **playerGrid = malloc(TAILLE * sizeof(char *));
@@ -85,7 +103,6 @@ void deleteSave(void) {
 
 void loadAGame(void) {
     int choix;
-    clearOutput();
     do
     {
         printf("Que souhaitez vous faire ? \n 1)Liste des parties sauvegardées\n 2)Charger une partie\n 3)Supprimer une partie sauvegardée\n 4)Retour\n");
