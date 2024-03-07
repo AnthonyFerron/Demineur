@@ -2,6 +2,7 @@
 
 
 
+
 void regles(void) {
     printf("Bienvenue sur le Démineur!\n\n");
     printf("Règles du jeu :\n");
@@ -43,7 +44,7 @@ int theMain(void) {
             initGame();
             break;
         case 3:
-            printf("Charger une partie\n");
+            loadAGame();
             break;
         case 4:
             clearOutput();
@@ -51,7 +52,8 @@ int theMain(void) {
             choix = 0;
             break;
         case 5:
-            printf("Quitter\n");
+            printf("Merci d'avoir joué !\n");
+            printf("A bientôt !\n");
             break;
         default:
             printf("\033[0;31m");

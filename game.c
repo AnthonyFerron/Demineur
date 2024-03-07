@@ -159,6 +159,16 @@ double logicGame(char **playerGrid, char **realGrid) {
             }
             
         } else if (action == 'q') {
+            printf("Voulez-vous sauvegarder la partie ? (s/n) : ");
+            char choix;
+            scanf(" %c", &choix);
+            if (choix == 's') {
+                saveGame(playerGrid, realGrid);
+            }
+            game = 0;
+            return 0;
+        } else if (action == 's') {
+            saveGame(playerGrid, realGrid);
             game = 0;
             return 0;
         }
@@ -211,3 +221,4 @@ void endGame(int win, double time) {
     } while (!(choix < 5 && choix > 0));
     return;
 }
+
