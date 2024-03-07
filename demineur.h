@@ -1,16 +1,6 @@
 #ifndef DEMINEUR
 #define DEMINEUR
 
-
-
-// void realGridWithMines(char **grid);
-// int countMines(char **grid, int x, int y);
-// char **realGridInit(char **grid);
-// void printGrid(char **grid);
-// void initGame(void);
-// void regles(void);
-// void clearOutput(void);
-
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,7 +8,6 @@
 #include <string.h>
 #include <time.h>
 #include <stdbool.h>
-
 
 #define TAILLE 5
 #define MINES 1
@@ -32,7 +21,7 @@ int theMain(void);
 #include "grid.c"
 #include "game.c"
 
-
-
-
 #endif
+
+//created by @AnthonyFerron
+//Thanks for playing !
