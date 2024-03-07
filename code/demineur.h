@@ -10,7 +10,7 @@
 #include <stdbool.h>
 
 #define TAILLE 5
-#define MINES 1
+#define MINES 7
 
 void clearOutput(void);
 void regles(void);
