@@ -1,8 +1,5 @@
 #include "demineur.h"
 
-
-
-
 void regles(void) {
     printf("Bienvenue sur le Démineur!\n\n");
     printf("Règles du jeu :\n");
@@ -20,9 +17,6 @@ void regles(void) {
 void clearOutput(void) {
     printf("\033[H\033[2J");
 }
-
-
-
 
 int theMain(void) {
     int choix;
@@ -44,6 +38,7 @@ int theMain(void) {
             initGame();
             break;
         case 3:
+            clearOutput();
             loadAGame();
             break;
         case 4:
@@ -63,11 +58,7 @@ int theMain(void) {
             break;
         }
     } while (!(choix < 6 && choix > 0));
-    
-
-    
-    
-    
+  
     return 0;
 }
 

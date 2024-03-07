@@ -4,7 +4,6 @@ double logicGame(char **playerGrid, char **realGrid);
 void endGame(int win, double time);
 int nbMines(char **grid);
 
-
 void initGame(void) {
 
     time_t start, end;
@@ -37,9 +36,6 @@ void initGame(void) {
     }
     realGridInit(realGrid);
     realGridWithMines(realGrid);
-    // printGrid(grid);
-    // printGrid(playerGrid);
-    // printGrid(realGrid);
 
     //Reveler 3 cases pour aider le joueur 
     int x = 0;
@@ -221,4 +217,3 @@ void endGame(int win, double time) {
     } while (!(choix < 5 && choix > 0));
     return;
 }
-

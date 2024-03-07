@@ -29,14 +29,12 @@ void addScore(char *playerName, double time) {
     int seconds = (int)time % 60;
     int newScoreRank = 0;
 
-    // Open the scores.txt file in read mode
     FILE *file = fopen("scores.txt", "r");
     if (file == NULL) {
         printf("Failed to open the file.\n");
         return;
     }
 
-    // Read the existing scores from the file
     Score *head = NULL;
     Score *tail = NULL;
     char line[100];
@@ -55,10 +53,8 @@ void addScore(char *playerName, double time) {
         }
     }
 
-    // Close the file
     fclose(file);
 
-    // Insert our score at the appropriate position
     Score *newScore = (Score *)malloc(sizeof(Score));
     strncpy(newScore->name, playerName, 50);
     newScore->time = time;
@@ -79,14 +75,12 @@ void addScore(char *playerName, double time) {
         newScoreRank = rank + 1;
     }
 
-    // Open the scores.txt file in write mode
     file = fopen("scores.txt", "w");
     if (file == NULL) {
         printf("Failed to open the file.\n");
         return;
     }
 
-    // Write the updated scores to the file
     Score *current = head;
     int rank = 1;
     while (current != NULL) {
@@ -97,7 +91,6 @@ void addScore(char *playerName, double time) {
         rank++;
     }
 
-    // Close the file
     fclose(file);
     
     if (newScoreRank == 1) {

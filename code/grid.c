@@ -47,14 +47,11 @@ int countMines(char **grid, int x, int y) {
     int dx[] = {-1, -1, -1, 0, 0, 1, 1, 1};
     int dy[] = {-1, 0, 1, -1, 1, -1, 0, 1};
 
-    // Parcourir toutes les directions
     for (int i = 0; i < 8; i++) {
         int nx = x + dx[i];
         int ny = y + dy[i];
 
-        // Vérifier si la case adjacente est à l'intérieur de la grille
         if (nx >= 0 && nx < TAILLE && ny >= 0 && ny < TAILLE) {
-            // Si la case adjacente contient une mine, incrémenter le compteur
             if (grid[ny][nx] == '*') {
                 count++;
             }
@@ -64,17 +61,12 @@ int countMines(char **grid, int x, int y) {
     return count;
 }
 
-// Fonction pour mettre à jour la grille avec le nombre de mines autour de chaque case
 void realGridWithMines(char **grid) {
-    // Parcourir chaque case de la grille
     for (int y = 0; y < TAILLE; y++) {
         for (int x = 0; x < TAILLE; x++) {
-            // Si la case ne contient pas de mine, compter les mines autour
             if (grid[y][x] != '*') {
-                // Compter les mines autour de la case actuelle
                 int minesCount = countMines(grid, x, y);
-                // Mettre à jour la case avec le nombre de mines trouvées
-                grid[y][x] = minesCount + '0'; // Convertir le nombre en caractère
+                grid[y][x] = minesCount + '0';
             }
         }
     }
