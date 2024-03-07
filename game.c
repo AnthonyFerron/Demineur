@@ -7,7 +7,7 @@ int nbMines(char **grid);
 
 void initGame(void) {
 
-    clock_t start, end;
+    time_t start, end;
     double cpu_time_used;
 
     char **grid = malloc(TAILLE * sizeof(char *));
@@ -65,10 +65,10 @@ void initGame(void) {
     }
 
     int win = 0;
-    start = clock();
+    start = time(NULL);
     win = logicGame(playerGrid, realGrid);
-    end = clock();
-    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    end = time(NULL);
+    cpu_time_used = difftime(end, start);
 
     for (int i = 0; i < TAILLE; i++) {
         free(grid[i]);
@@ -171,7 +171,7 @@ void endGame(int win, double time) {
     int choix;
 
     if (win == 1) {
-        printf("Votre temps : %f\n", time);
+        printf("Votre temps : %d minutes et %d secondes\n", (int)time / 60, (int)time % 60);
         printf("Entrez votre nom pour le tableau des scores : ");
         char name[50];
         scanf("%s", name);
