@@ -8,7 +8,7 @@ void initGame(void) {
 
     time_t start, end;
     double cpu_time_used;
-
+    //init grid
     char **grid = malloc(TAILLE * sizeof(char *));
     for (int i = 0; i < TAILLE; i++) {
         grid[i] = malloc(TAILLE * sizeof(char));
