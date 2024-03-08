@@ -19,7 +19,7 @@ void theMain() {
     do
     {
         printf("Que voulez vous faire ?\n");
-        printf(" 1. Jouer\n 2. Charger une partie\n 3. Afficher les regles\n 4. Quitter\n\n");
+        printf(" 1. Jouer\n 2. Tableau des scores\n 3. Records\n 4. Regles\n 5. Quitter\n\n");
         scanf("%d", &choix);
         switch (choix)
         {
@@ -29,14 +29,20 @@ void theMain() {
             break;
         case 2:
             clearOutput();
-            //loadAGame();
+            //printScores();
+            choix = 0;
             break;
         case 3:
+            clearOutput();
+            //printRecords();
+            choix = 0;
+            break;
+        case 4:
             clearOutput();
             regles();
             choix = 0;
             break;
-        case 4:
+        case 5:
             clearOutput();
             printf("Merci d'avoir joué !\n");
             printf("A bientôt !\n");
@@ -45,6 +51,7 @@ void theMain() {
             printf("\033[0;31m");
             printf("Veuillez choisir un chiffre valide !\n");
             printf("\033[0m");
+            choix = 0;
             break;
         }
     } while (!(choix < 5 && choix > 0));
