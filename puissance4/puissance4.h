@@ -10,6 +10,11 @@
 #define ROWS 6
 #define COLS 7
 
+void clearOutput(void);
+void regles(void);
+void theMain(void);
+
+
 #include "grid.c"
 #include "game.c"
 
