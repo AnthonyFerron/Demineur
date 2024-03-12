@@ -1,4 +1,3 @@
-#!/bin/sh
-cd code
+cd demineur
 gcc main.c
 ./a.out
