@@ -1,8 +1,6 @@
 #include "demineur.h"
 
-int logicGame(char **playerGrid, char **realGrid);
-void endGame(int win, double time);
-int nbMines(char **grid);
+
 
 int nbRevealed(char **playerGrid) {
     int count = 0;
@@ -16,9 +14,9 @@ int nbRevealed(char **playerGrid) {
     return count;
 }
 
-void startGame(char **playerGrid, char **realGrid) {
+void startGame(char **playerGrid, char **realGrid, long int cpu_time_store) {
     time_t start, end;
-    double cpu_time_used;
+    long int cpu_time_used;
     int win = 0;
     start = time(NULL);
     win = logicGame(playerGrid, realGrid);
@@ -104,7 +102,7 @@ void initGame(void) {
         count++;
     }
 
-    startGame(playerGrid, realGrid);
+    startGame(playerGrid, realGrid, 0);
     for (int i = 0; i < TAILLE; i++) {
         free(grid[i]);
     }
@@ -198,7 +196,7 @@ int logicGame(char **playerGrid, char **realGrid) {
     return 0;
 }
 
-void endGame(int win, double time) {
+void endGame(int win, long int time) {
     int choix;
 
     if (win == 1) {

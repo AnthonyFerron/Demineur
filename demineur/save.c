@@ -2,7 +2,7 @@
 int logicGame(char **playerGrid, char **realGrid);
 void loadAGame(void);
 void deleteSave(char saveName[50]);
-void startGame(char **playerGrid, char **realGrid);
+void startGame(char **playerGrid, char **realGrid, long int cpu_time_store);
 
 // Vérifier si un nom de sauvegarde existe déjà dans le fichier
 int isSaveNameExists(const char *saveName) {
@@ -30,7 +30,7 @@ int isSaveNameExists(const char *saveName) {
 }
 
 // sauvegarder une partie en cours
-void saveGame(char **playerGrid, char **realGrid) {
+void saveGame(char **playerGrid, char **realGrid, long int cpu_time_store) {
     char saveName[50];
 
     int choosenName = 0;
@@ -63,6 +63,7 @@ void saveGame(char **playerGrid, char **realGrid) {
         }
         fprintf(file, "\n");
     }
+    fprintf(file, "%ld\n", cpu_time_store);
     fclose(file);
     printf("Game saved successfully.\n");
     theMain();
@@ -72,6 +73,7 @@ void saveGame(char **playerGrid, char **realGrid) {
 // charger une partie sauvegardée
 void loadGame(void) {
     char saveName[50];
+    long int cpu_time_store = 0;
     printf("Enter the name of the save to load: ");
     scanf("%s", saveName);
     FILE *file = fopen("save.txt", "r");
@@ -105,10 +107,13 @@ void loadGame(void) {
                 for (int i = 0; i < TAILLE; i++) {
                     realGrid[j][i] = line[i];
                 }
+            //lire le temps ecouler
+            for (int i = 0; i < TAILLE * 2; i++) {
+                fgets(cpu_time_store, sizeof(line), cpu_time_store);
             }
             deleteSave(saveName);
             fclose(file);
-            startGame(playerGrid, realGrid);
+            startGame(playerGrid, realGrid, cpu_time_store);
             return;
         }
         for (int i = 0; i < TAILLE * 2; i++) {
@@ -116,6 +121,7 @@ void loadGame(void) {
         }
     }
     printf("No save found with the given name.\n");
+    return;
 }
 
 //liste des parties sauvegardées
@@ -161,14 +167,14 @@ void deleteSave(char saveName[50]) {
         currentName[strcspn(currentName, "\n")] = '\0';
         if (strcmp(currentName, saveName) == 0) {
             found = 1;
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 11; i++) {
                 if (fgets(line, sizeof(line), file) == NULL) {
                     break;
                 }
             }
         } else {
             fprintf(tempFile, "%s\n", currentName);
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 11; i++) {
                 if (fgets(line, sizeof(line), file) == NULL) {
                     break;
                 }
