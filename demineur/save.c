@@ -1,5 +1,5 @@
 #include "demineur.h"
-double logicGame(char **playerGrid, char **realGrid);
+int logicGame(char **playerGrid, char **realGrid);
 void loadAGame(void);
 void deleteSave(char saveName[50]);
 

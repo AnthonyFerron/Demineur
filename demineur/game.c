@@ -1,8 +1,20 @@
 #include "demineur.h"
 
-double logicGame(char **playerGrid, char **realGrid);
+int logicGame(char **playerGrid, char **realGrid);
 void endGame(int win, double time);
 int nbMines(char **grid);
+
+int nbRevealed(char **playerGrid) {
+    int count = 0;
+    for (int j = 0; j < TAILLE; j++) {
+        for (int i = 0; i < TAILLE; i++) {
+            if (playerGrid[j][i] != 'x' && playerGrid[j][i] != 'P') {
+                count++;
+            }
+        }
+    }
+    return count;
+}
 
 void initGame(void) {
 
@@ -63,6 +75,7 @@ void initGame(void) {
     int win = 0;
     start = time(NULL);
     win = logicGame(playerGrid, realGrid);
+    printf(win == 1 ? "Vous avez gagné !\n" : "Vous avez perdu !\n");
     end = time(NULL);
     cpu_time_used = difftime(end, start);
 
@@ -99,14 +112,14 @@ int nbMines(char **grid) {
     return count;
 }
 
-double logicGame(char **playerGrid, char **realGrid) {
+int logicGame(char **playerGrid, char **realGrid) {
     int game = 1;
     char action;
     char case1 = 0;
     char case2 = 0;
     int x = 0;
     int y = 0;
-    int revealed = 4;
+    int revealed = nbRevealed(playerGrid);
     while (game) {
         clearOutput();
         printf("Pour jouer, écrivez sur 'x' pour découvrir une case et 'd' pour poser un drapeau\n");
@@ -150,6 +163,7 @@ double logicGame(char **playerGrid, char **realGrid) {
                     printf("\n\n");
                     printGrid(playerGrid);
                     game = 0;
+                    printf("helloworld");
                     return 1;
                 }
             }
