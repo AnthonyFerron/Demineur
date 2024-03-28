@@ -2,6 +2,7 @@
 int logicGame(char **playerGrid, char **realGrid);
 void loadAGame(void);
 void deleteSave(char saveName[50]);
+void startGame(char **playerGrid, char **realGrid);
 
 // Vérifier si un nom de sauvegarde existe déjà dans le fichier
 int isSaveNameExists(const char *saveName) {
@@ -107,7 +108,7 @@ void loadGame(void) {
             }
             deleteSave(saveName);
             fclose(file);
-            logicGame(playerGrid, realGrid);
+            startGame(playerGrid, realGrid);
             return;
         }
         for (int i = 0; i < TAILLE * 2; i++) {
