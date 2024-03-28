@@ -24,8 +24,10 @@ void startGame(char **playerGrid, char **realGrid) {
     win = logicGame(playerGrid, realGrid);
     end = time(NULL);
     cpu_time_used = difftime(end, start);
-
-
+    cpu_time_used += cpu_time_store;
+    if(win == 2) {
+        saveGame(playerGrid, realGrid, cpu_time_used);
+    }
     for (int i = 0; i < TAILLE; i++) {
         free(playerGrid[i]);
     }
@@ -37,8 +39,12 @@ void startGame(char **playerGrid, char **realGrid) {
     
     if(win == 1) {
         endGame(1, cpu_time_used);
-    } else {
+    } else if(win == 0)
+    {
         endGame(0, cpu_time_used);
+    }
+    else {
+        printf("Problem, problem !!\n");
     }
     return;
 }
@@ -178,14 +184,14 @@ int logicGame(char **playerGrid, char **realGrid) {
             char choix;
             scanf(" %c", &choix);
             if (choix == 's') {
-                saveGame(playerGrid, realGrid);
+                game = 0;
+                return 2;
             }
             game = 0;
             return 0;
         } else if (action == 's') {
-            saveGame(playerGrid, realGrid);
             game = 0;
-            return 0;
+            return 2;
         }
         else(printf("Veuillez entrer une action valide !\n"));
     }
