@@ -1,7 +1,5 @@
 #include "demineur.h"
 
-
-
 int nbRevealed(char **playerGrid) {
     int count = 0;
     for (int j = 0; j < TAILLE; j++) {
